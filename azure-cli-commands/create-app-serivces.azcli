@@ -1,0 +1,26 @@
+gitRepo=https://github.com/MicrosoftDocs/mslearn-capture-application-logs-app-service
+appName="contosofashions$RANDOM"
+appPlan="contosofashionsAppPlan"
+appLocation="southeastasia"
+resourceGroup="myResourceGroup"
+storageAccount=sa$appName
+
+
+# Create resource group
+az group create --name $resourceGroup --location $appLocation
+
+# Create web app deploymnent user
+az webapp deployment user set --user-name <user-name> --password <password>
+
+# Create app service
+az appservice plan create --name $appPlan --resource-group $resourceGroup --location $appLocation --sku FREE
+az webapp create --name $appName --resource-group $resourceGroup --plan $appPlan --deployment-source-url $gitRepo
+
+# Create storage account
+az storage account create -n $storageAccount -g $resourceGroup -l $appLocation --sku Standard_LRS
+
+# Use portal to setup logging
+# ....
+
+# View live log 
+az webapp log tail --name $appName --resource-group $resourceGroup
