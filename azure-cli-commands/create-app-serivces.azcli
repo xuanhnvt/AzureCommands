@@ -24,3 +24,9 @@ az storage account create -n $storageAccount -g $resourceGroup -l $appLocation -
 
 # View live log 
 az webapp log tail --name $appName --resource-group $resourceGroup
+
+# compress file
+zip -r <file-name>.zip .
+
+# deploy by file zip
+az webapp deployment source config-zip --resource-group <group-name> --name <app-name> --src <path-to-zip-file>.zip
